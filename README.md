@@ -1,8 +1,6 @@
 # buildJetsonTX2Kernel
 Scripts to help build the kernel and modules onboard the Jetson TX2
 
-WARNING - HDMI Sound appears to be broken after this build!!! 3-18-17
-
 As of this writing, the "official" way to compile the Jetson TX2 is to use a cross compiler on a Linux PC. These scripts will down load the kernel source to the Jetson TX2, wrangle some of the Makefiles to make them work on the Jetson, and then compile the kernel and selected modules. The newly compiled kernel can then be installed.
 
 These scripts are for building the 64-bit L4T 27.1 (Ubuntu 16.04 based) operating system on the NVIDIA Jetson TX2. The scripts should be run directly after flashing the Jetson with L4T 27.1 from a host PC. There are three scripts:
