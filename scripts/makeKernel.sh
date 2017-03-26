@@ -5,4 +5,6 @@ cd /usr/src/kernel/kernel-4.4
 make prepare
 make modules_prepare
 make -j6
+make modules
+make modules_install
 
