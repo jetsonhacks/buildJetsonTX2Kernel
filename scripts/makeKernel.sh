@@ -4,7 +4,9 @@
 cd /usr/src/kernel/kernel-4.4
 make prepare
 make modules_prepare
-make -j6
+# Make alone will build the dts files too
+# make -j6
+make -j6 Image
 make modules
 make modules_install
 

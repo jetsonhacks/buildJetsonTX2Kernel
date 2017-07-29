@@ -1,10 +1,9 @@
 #!/bin/bash
-cp ./mods/nvadsp/Makefile.t18x     /usr/src/kernel/t18x/drivers/platform/tegra/nvadsp
-cp ./mods/rtcpu/Makefile.t18x      /usr/src/kernel/t18x/drivers/platform/tegra/rtcpu
-cp ./mods/devfreq/Makefile         /usr/src/kernel/kernel-4.4/drivers/devfreq
-cp ./mods/nvgpu/Makefile.nvgpu     /usr/src/kernel/nvgpu/drivers/gpu/nvgpu
-cp ./mods/sound/Makefile           /usr/src/kernel/kernel-4.4/sound/soc/tegra-alt
-# Haven't been able to figure out how to correct this properly:
-cp /usr/src/kernel/kernel-4.4/drivers/media/platform/tegra/vi/vi.h /usr/src/kernel/t18x/drivers/video/tegra/host/vi
-
+# Fix the Makefiles so that they compile on the device
+patch /usr/src/kernel/kernel-4.4/drivers/devfreq/Makefile ./diffs/devfreq/devfreq.patch
+patch /usr/src/kernel/nvgpu/drivers/gpu/nvgpu/Makefile ./diffs/nvgpu/nvgpu.patch
+patch /usr/src/kernel/kernel-4.4/sound/soc/tegra-alt/Makefile ./diffs/tegra-alt/tegra-alt.patch
+# vmipi is in a sub directory without a Makefile, there was an include problem
+cp /usr/src/kernel/kernel-4.4/drivers/media/platform/tegra/mipical/mipi_cal.h /usr/src/kernel/kernel-4.4/drivers/media/platform/tegra/mipical/vmipi/mipi_cal.h
+ 
 
