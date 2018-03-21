@@ -27,7 +27,7 @@ You may want to save the newly built Image and modules to external media so that
 
 The copyImage.sh script copies the Image to the current device. If you are building the kernel on an external device, for example a SSD, you will want to copy the Image file over to the eMMC in the eMMC /boot directory if you are booting from the eMMC and using external storage as your root directory. 
 
-###Release Notes
+### Release Notes
 March, 2018
 * L4T 28.2 (JetPack 3.2)
 * Removed patches for make file cleanup
