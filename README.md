@@ -3,7 +3,7 @@ Scripts to help build the 4.4.38 kernel and modules onboard the Jetson TX2 (L4T 
 
 <em><strong>Note:</strong> The kernel source version must match the version of firmware flashed on the Jetson. For example, the source for the 4.4.38 kernel here is matched with L4T 28.2. This kernel compiled using this source tree will not work with newer versions or older versions of L4T, only 28.2.</em>
 
-As of this writing, the "official" way to build the Jetson TX2 kernel is to use a cross compiler on a Linux PC. This is an alternative which builds the kernel onboard the Jetson itself. These scripts will download the kernel source to the Jetson TX2, and then compile the kernel and selected modules. The newly compiled kernel can then be installed.
+As of this writing, the "official" way to build the Jetson TX2 kernel is to use a cross compiler on a Linux PC. This is an alternative which builds the kernel onboard the Jetson itself. These scripts will download the kernel source to the Jetson TX2, and then compile the kernel and selected modules. The newly compiled kernel can then be installed. The kernel sources and build objects consume ~3GB.
 
 These scripts are for building the kernel for the 64-bit L4T 28.2 (Ubuntu 16.04 based) operating system on the NVIDIA Jetson TX2. The scripts should be run directly after flashing the Jetson with L4T 28.2 from a host PC. There are three scripts:
 
@@ -11,23 +11,50 @@ These scripts are for building the kernel for the 64-bit L4T 28.2 (Ubuntu 16.04 
 
 Downloads the kernel sources for L4T 28.2 from the NVIDIA website, decompresses them and opens a graphical editor on the .config file. 
 
+<strong>getKernelSourcesNoGUI.sh</strong>
+
+Downloads the kernel sources for L4T 28.2 from the NVIDIA website and decompresses them. This is useful when working through SSH or have a preference to edit the .config through a text editor or some other manner (e.g. nconfig), or have a predefined .config file you would like to substitute. 
+
+
 <strong>makeKernel.sh</strong>
 
 Compiles the kernel and modules using make. The script commands make the kernel Image file, makes the module files, and installs the module files. Installing the Image file on to the system is a separate step. Note that the make is limited to the Image and modules; the rest of the kernel build (such as compiling the dts files) must be done separately. Doing "sudo make" in the kernel source directory will build the entirety.
 
 <strong>copyImage.sh</strong>
 
-Copies the Image file created by compiling the kernel to the /boot directory
+Copies the Image file created by compiling the kernel to the /boot directory. Note that while developing you will want to be more conservative than this: You will probably want to copy the new kernel Image to a different name in the boot directory, and modify /boot/extlinux/extlinux.conf to have entry points at the old image, or the new image. This way, if things go sideways you can still boot the machine using the serial console.
 
 <strong>Notes:</strong> 
+<h3>Recovering Disk Space</h3>
+The kernel source files are downloaded in a .tgz2 format. After compilation you may want to remove those files. The files are located in /usr/src You will need to use sudo to remove the files, as they are in a system area. The file 'source_release.tbz2' is a large file that holds the kernel sources as well as many other TX2 specific source packages. You can make a backup of source_release.tbz2 before deleting it.
 
-The kernel source files are downloaded in a .tgz2 format. After compilation you may want to remove those files. The files are located in /usr/src You will need to use sudo to remove the files, as they are in a system area. The work directory 'public_release' contains kernel_src.tbz2, you can remove that directory. The file 'source_release.tbz2' is a much larger file that holds the kernel sources as well as many other TX2 specific source packages. You can make a backup of source_release.tbz2 before deleting it.
+The source and build files installed are in the following directories:
+<ul>
+<li>/usr/src/kernel</li>
+<li>/usr/src/hardware</li>
+<li>/usr/src/source_release.tbz2</li>
+</ul>
 
-You may want to save the newly built Image and modules to external media so that can be used to flash a Jetson image, or clone the disk image.
+You may want to save the newly built Image, kernel source and modules to external media for later development purposes.
 
-The copyImage.sh script copies the Image to the current device. If you are building the kernel on an external device, for example a SSD, you will want to copy the Image file over to the eMMC in the eMMC /boot directory if you are booting from the eMMC and using external storage as your root directory. 
+<h3>Make sure to update the eMMC</h3>
+
+The copyImage.sh script copies the Image to the current device. If you are building the kernel on an external device, for example a SSD, you will probably want to copy the Image file over to the eMMC in the eMMC's /boot directory. The Jetson will usually try to boot from the eMMC before switching to a different device. Study the boot sequence of the Jetson to properly understand which Image file is being used.
+
+<h3>Save the .config file</h3>
+
+The .config file is not saved during the installation of the kernel. This can make it difficult to later go back and modify the system if you delete the kernel sources. You should consider saving the configuration file. The file is located:
+
+/usr/src/kernel/kernel-4.4/.config
+
+The .config file is normally hidden, you may want to save the copy without the preceeding '.'
+
 
 ### Release Notes
+April, 2018
+* L4T 28.2 (JetPack 3.2)
+* Add getKernelSourcesNoGUI.sh
+
 March, 2018
 * L4T 28.2 (JetPack 3.2)
 * Removed patches for make file cleanup
