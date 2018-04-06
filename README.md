@@ -24,7 +24,7 @@ Compiles the kernel and modules using make. The script commands make the kernel 
 
 Copies the Image file created by compiling the kernel to the /boot directory. Note that while developing you will want to be more conservative than this: You will probably want to copy the new kernel Image to a different name in the boot directory, and modify /boot/extlinux/extlinux.conf to have entry points at the old image, or the new image. This way, if things go sideways you can still boot the machine using the serial console.
 
-<strong>Notes:</strong> 
+<h2>Notes:</h2> 
 <h3>Recovering Disk Space</h3>
 The kernel source files are downloaded in a .tgz2 format. After compilation you may want to remove those files. The files are located in /usr/src You will need to use sudo to remove the files, as they are in a system area. The file 'source_release.tbz2' is a large file that holds the kernel sources as well as many other TX2 specific source packages. You can make a backup of source_release.tbz2 before deleting it.
 
