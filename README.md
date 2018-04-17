@@ -31,7 +31,7 @@ The copyImage.sh script copies the Image to the current device. If you are build
 
 <h3>Save the .config file</h3>
 
-The .config file is not saved during the installation of the kernel. This can make it difficult to later go back and recreate or modify the system if you delete the kernel sources. You should consider saving the configuration file. The file is located:
+The .config file is located in the kernel source tree. Any changes made are saved local to the source tree. The .config file is not saved elsewhere during the installation of the kernel. This can make it difficult to later go back and recreate or modify the system if you delete the kernel source tree to save space (which also erases the modified .config file). You should consider saving the configuration file elsewhere. The file is located:
 
 /usr/src/kernel/kernel-4.4/.config
 
