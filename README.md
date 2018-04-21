@@ -55,11 +55,13 @@ You may want to save the newly built Image, kernel source and modules to externa
 April, 2018
 * vL4T28.2r2
 * L4T 28.2 (JetPack 3.2)
+* Production Release
 * Add getKernelSourcesNoGUI.sh for cases where the user does not want to edit the .config file through a GUI.
 
 March, 2018
 * vL4T28.2
 * L4T 28.2 (JetPack 3.2)
+* Developers Preview
 * Removed patches for make file cleanup
 
 July, 2017
