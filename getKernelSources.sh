@@ -6,29 +6,50 @@ echo "$JETSON_DESCRIPTION"
 #Print Jetpack version
 echo "Jetpack $JETSON_JETPACK [L4T $JETSON_L4T]"
 
-# Check to make sure we're installing the correct kernel sources
-L4TTarget="28.2.1"
-if [ $JETSON_L4T == $L4TTarget ] ; then
-   echo "Getting kernel sources"
+
+# Set kernel tag to to the version of L4T in system. Reference: http://nv-tegra.nvidia.com/gitweb/?p=linux-t18x.git;a=summary
+# Possible kernel tags for TX2:
+# 	tegra-l4t-r28.2.1
+#   tegra-l4t-r28.2
+#   tegra-l4t-r28.2-rc
+#   tegra-l4t-r28.1
+#   tegra-l4t-r27.1
+KERNEL_TAG=0
+
+if [ "$JETSON_BOARD" = "TX2i" ] ; then
+    case $JETSON_L4T in
+        "28.2.1")
+           KERNEL_TAG="tegra-l4t-r28.2.1" ;;
+        "28.2")
+           KERNEL_TAG="tegra-l4t-r28.2" ;;
+        *)
+           KERNEL_TAG="UNKNOWN" ;;
+    esac
+elif [ "$JETSON_BOARD" = "TX2" ] ; then
+    case $JETSON_L4T in
+        "28.2.1")
+                KERNEL_TAG="tegra-l4t-r28.2.1" ;;
+        "28.2")
+                KERNEL_TAG="tegra-l4t-r28.2" ;;
+        "28.1")
+                KERNEL_TAG="tegra-l4t-r28.1" ;;
+        "27.1")
+                KERNEL_TAG="tegra-l4t-r27.1" ;;
+        *)
+           JETSON_JETPACK="UNKNOWN" ;;
+    esac
+else
+    # Unknown board
+    JETSON_JETPACK="UNKNOWN"
+fi
+
+if [ $JETSON_JETPACK == "UNKNOWN" ] ; then
+   echo "An unsupported version of the board or L4T detected! "
    sudo ./scripts/getKernelSources.sh
 else
-   echo ""
-   tput setaf 1
-   echo "==== L4T Kernel Version Mismatch! ============="
-   tput sgr0
-   echo ""
-   echo "This repository branch is for installing the kernel sources for L4T "$L4TTarget
-   echo "You are attempting to use these kernel sources on a L4T "$JETSON_L4T "system."
-   echo "The kernel sources do not match their L4T release!"
-   echo ""
-   echo "Please git checkout the appropriate kernel sources for your release"
-   echo " "
-   echo "You can list the tagged versions."
-   echo "$ git tag -l"
-   echo "And then checkout the latest version: "
-   echo "For example"
-   echo "$ git checkout L4T"$JETSON_L4T
-   echo ""
+  echo "Setting the kernel URL for L4T $L4TTarget"
+  echo "Getting kernel sources"
+  sudo ./scripts/getKernelSources.sh
 fi
 
 
