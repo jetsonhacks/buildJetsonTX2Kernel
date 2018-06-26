@@ -7,6 +7,5 @@ echo "$JETSON_DESCRIPTION"
 echo "Jetpack $JETSON_JETPACK [L4T $JETSON_L4T]"
 
 
-echo "Setting the kernel URL for L4T $KERNEL_TAG"
-echo "Getting kernel sources"
+
 sudo ./scripts/getKernelSources.sh

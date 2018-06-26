@@ -46,6 +46,8 @@ if [ $JETSON_JETPACK == "UNKNOWN" ] ; then
    sudo ./scripts/getKernelSources.sh
 else
 
+  echo "Setting the kernel URL for L4T $KERNEL_TAG"
+  echo "Getting kernel sources"
 
   # Note: New Method for getting kernel source.
   # For older method, following can be used, but decided to come up with more efficient mode:
