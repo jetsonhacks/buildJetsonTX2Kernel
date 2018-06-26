@@ -1,11 +1,18 @@
 #!/bin/bash
+source jetson_variables.sh
+
 apt-add-repository universe
 apt-get update
 apt-get install qt5-default pkg-config -y
 cd /usr/src
 
 # Install the kernel source for L4T
-source scripts/jetson_variables.sh
+
+#Print Jetson version
+echo "$JETSON_DESCRIPTION"
+
+#Pring Jetpack Version
+echo "Jetpack $JETSON_JETPACK [L4T $JETSON_L4T]"
 
 # Set kernel tag to to the version of L4T in system. Reference: http://nv-tegra.nvidia.com/gitweb/?p=linux-t18x.git;a=summary
 # Possible kernel tags for TX2:
@@ -14,7 +21,8 @@ source scripts/jetson_variables.sh
 #   tegra-l4t-r28.2-rc
 #   tegra-l4t-r28.1
 #   tegra-l4t-r27.1
-KERNEL_TAG=0
+#KERNEL_TAG=0
+echo "Jetson L4T is $JETSON_L4T"
 
 if [ "$JETSON_BOARD" = "TX2i" ] ; then
     case $JETSON_L4T in
@@ -36,18 +44,18 @@ elif [ "$JETSON_BOARD" = "TX2" ] ; then
         "27.1")
                 KERNEL_TAG="tegra-l4t-r27.1" ;;
         *)
-           JETSON_JETPACK="UNKNOWN" ;;
+           KERNEL_TAG="UNKNOWN" ;;
     esac
 else
     # Unknown board
-    JETSON_JETPACK="UNKNOWN"
+    KERNEL_TAG="UNKNOWN"
 fi
 
 
 echo "Setting the kernel URL for L4T $KERNEL_TAG"
 echo "Getting kernel sources"
 
-if [ $JETSON_JETPACK == "UNKNOWN" ] ; then
+if [ $KERNEL_TAG == "UNKNOWN" ] ; then
    echo "An unsupported version of the board or L4T detected! "
    sudo ./scripts/getKernelSources.sh
 else
