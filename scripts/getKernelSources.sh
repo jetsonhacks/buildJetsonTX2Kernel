@@ -4,6 +4,8 @@ apt-get update
 apt-get install qt5-default pkg-config -y
 cd /usr/src
 
+# Install the kernel source for L4T
+source scripts/jetson_variables.sh
 
 # Set kernel tag to to the version of L4T in system. Reference: http://nv-tegra.nvidia.com/gitweb/?p=linux-t18x.git;a=summary
 # Possible kernel tags for TX2:
