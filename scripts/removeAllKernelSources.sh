@@ -3,5 +3,5 @@
 cd /usr/src
 rm -r kernel
 rm -r hardware
-rm tx2_sources.tbz2
+rm public_sources.tbz2
 

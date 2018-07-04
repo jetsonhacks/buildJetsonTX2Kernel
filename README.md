@@ -34,10 +34,17 @@ Removes all of the kernel sources and compressed source files. You may want to m
 The copyImage.sh script copies the Image to the current device. If you are building the kernel on an external device, for example a SSD, you will probably want to copy the Image file over to the eMMC in the eMMC's /boot directory. The Jetson will usually try to boot from the eMMC before switching to a different device. Study the boot sequence of the Jetson to properly understand which Image file is being used.
 
 
-Special thanks to Raffaello Bonghi (https://github.com/rbonghi) for jeston_easy scripts.
-
+Special thanks to Raffaello Bonghi (https://github.com/rbonghi) for jetson_easy scripts.
+Special thanks to Shreeyak (https://github.com/Shreeyak) for discussing alternatives to get source directly from NVIDIA git repositories.
 
 ### Release Notes
+July, 2018
+* vL4T28.2.1
+* L4T 28.2.1 (JetPack 3.2.1)
+* Fix issue with scripts jetson_variables to determine L4T version. 
+** Special thanks to Shreeyak (https://github.com/Shreeyak)
+* Refactored scripts/getKernelSources and getKernelSourcesNoGUI
+
 April, 2018
 * vL4T28.2r3
 * L4T 28.2 (JetPack 3.2)
