@@ -66,6 +66,8 @@ if [ -f /etc/nv_tegra_release ]; then
     # https://developer.nvidia.com/embedded/jetpack-archive
     if [ "$JETSON_BOARD" = "TX2i" ] ; then 
         case $JETSON_L4T in
+            "32.1.0")
+                    JETSON_JETPACK="4.2" ;;
             "28.2.1")
                     JETSON_JETPACK="3.2.1" ;;
             "28.2") 
@@ -75,6 +77,8 @@ if [ -f /etc/nv_tegra_release ]; then
         esac        
     elif [ "$JETSON_BOARD" = "TX2" ] ; then
         case $JETSON_L4T in
+            "32.1.0")
+                    JETSON_JETPACK="4.2" ;;
             "28.2.1")
                     JETSON_JETPACK="3.2.1" ;;
             "28.2") 
