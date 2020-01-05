@@ -36,6 +36,7 @@ The copyImage.sh script copies the Image to the current device. If you are build
 
 Special thanks to Raffaello Bonghi (https://github.com/rbonghi) for jetson_easy scripts.
 Special thanks to Shreeyak (https://github.com/Shreeyak) for discussing alternatives to get source directly from NVIDIA git repositories.
+Special thanks to Alexander Rashed (@alexrashed on Github) for vL4T32.1.0 release
 
 ### Release Notes
 May, 2019
