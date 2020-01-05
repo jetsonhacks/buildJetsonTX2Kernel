@@ -1,5 +1,5 @@
 #!/bin/bash
-# Make the kernel for NVIDIA Jetson TX2 Developer Kit
+# Make kernel modules for NVIDIA Jetson TX2 Developer Kit
 # Copyright (c) 2016-20 Jetsonhacks 
 # MIT License
 
@@ -8,7 +8,7 @@ KERNEL_RELEASE="4.9"
 
 function usage
 {
-    echo "usage: ./makeKernel.sh [[-d directory ]  | [-h]]"
+    echo "usage: ./makeModules.sh [[-d directory ]  | [-h]]"
     echo "-d | --directory Directory path to parent of kernel"
     echo "-h | --help  This message"
 }
@@ -48,4 +48,4 @@ fi
 
 export SOURCE_TARGET
 # E Option carries over environment variables
-sudo -E ./scripts/makeKernel.sh
+sudo -E ./scripts/makeModules.sh
