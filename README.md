@@ -1,30 +1,46 @@
 # buildJetsonTX2Kernel
-Scripts to help build the 4.9.140 kernel and modules onboard the Jetson TX2 (L4T 32.1.0, JetPack 4.2). For previous versions, visit the 'tags' section.
+Scripts to help build the 4.9.140 kernel and modules onboard the Jetson TX2 (L4T 32.3.1, JetPack 4.3). For previous versions, visit the 'tags' section.
 
-<em><strong>Note:</strong> The kernel source version must match the version of firmware flashed on the Jetson. For example, the source for the 4.9.140 kernel here is matched with L4T 32.1.0. This kernel compiled using this source tree will not work with newer versions or older versions of L4T, only 32.1.0.</em>
+<em><strong>Note:</strong> The kernel source version must match the version of firmware flashed on the Jetson. For example, the source for the 4.9.140 kernel here is matched with L4T 32.3.1. This kernel compiled using this source tree will not work with newer versions or older versions of L4T, only 32.3.1.</em>
+
+<em><strong>Note:</strong> You will probably only use these scripts to build and install modules. Even though there are scripts provided to build and copy the new kernel to the boot directory of the device, there is no effect. In newer versions of L4T, the kernel Image is actually signed and stored in a different partition on disk. The copyImage.sh script is legacy. In order to place the newly created Image, you will need to copy it to the correct place on the host and flash the eMMC. It is probably easier to build it on the host in the first place. The flash process on the host signs the Image, and copies it to the appropriate partition.</em>
 
 As of this writing, the "official" way to build the Jetson TX2 kernel is to use a cross compiler on a Linux PC. This is an alternative which builds the kernel onboard the Jetson itself. These scripts will download the kernel source to the Jetson TX2, and then compile the kernel and selected modules. The newly compiled kernel can then be installed. The kernel sources and build objects consume ~3GB.
 
-These scripts are for building the kernel for the 64-bit L4T 32.1.0 (Ubuntu 18.04 based) operating system on the NVIDIA Jetson TX2. The scripts should be run directly after flashing the Jetson with L4T 32.1.0 from a host PC. There are five scripts:
+These scripts are for building the kernel for the 64-bit L4T 32.3.1 (Ubuntu 18.04 based) operating system on the NVIDIA Jetson TX2. The scripts should be run directly after flashing the Jetson with L4T 32.3.1 from a host PC. There are six scripts:
 
 <strong>getKernelSources.sh</strong>
 
-Downloads the kernel sources for L4T from the NVIDIA website, decompresses them and opens a graphical editor on the .config file. 
-
-<strong>getKernelSourcesNoGUI.sh</strong>
-
-Downloads the kernel sources for L4T from the NVIDIA website and decompresses them. This is useful when working through SSH, have a preference to edit the .config through a text editor or some other manner (e.g. nconfig), or have a predefined .config file you would like to substitute. 
-
+Downloads the kernel sources for L4T from the NVIDIA website, decompresses them and opens a graphical editor on the .config file. Note that this also sets the .config file to the current system, and also sets the local version to the current local version, i.e., -tegra
 
 <strong>makeKernel.sh</strong>
 
-Compiles the kernel and modules using make. The script commands make the kernel Image file, makes the module files, and installs the module files. Installing the Image file on to the system is a separate step. Note that the make is limited to the Image and modules; the rest of the kernel build (such as compiling the dts files) must be done separately. Doing "sudo make" in the kernel source directory will build the entirety.
+Compiles the kernel using make. The script commands make the kernel Image file. Installing the Image file on to the system is a separate step. Note that the make is limited to the Image and modules.
+
+The other parts of the kernel build, such as building the device tree, require that the result be 'signed' and flashed from the the NVIDIA tools on a host PC.
+
+<strong>makeModules.sh</strong>
+
+Compiles the modules using make and then installs them.
 
 <strong>copyImage.sh</strong>
 
 Copies the Image file created by compiling the kernel to the /boot directory. Note that while developing you will want to be more conservative than this: You will probably want to copy the new kernel Image to a different name in the boot directory, and modify /boot/extlinux/extlinux.conf to have entry points at the old image, or the new image. This way, if things go sideways you can still boot the machine using the serial console.
 
+You will want to make a copy of the original Image before the copy, something like:
+
+```
+$ cp /boot/Image $INSTALL_DIR/Image.orig
+$ ./copyImage.sh
+$ echo "New Image created and placed in /boot"
+```
+
+<strong>editConfig.sh</strong>
+
+Edit the .config file located in /usr/src/kernel/kernel-4.9 This file must be present (from the getKernelSources.sh script) before launching the file. Note that if you change the local version, you will need to make both the kernel and modules and install them.
+
 <strong>removeAllKernelSources.sh</strong>
+
 Removes all of the kernel sources and compressed source files. You may want to make a backup of the files before deletion.
 
 
@@ -39,6 +55,11 @@ Special thanks to Shreeyak (https://github.com/Shreeyak) for discussing alternat
 Special thanks to Alexander Rashed (@alexrashed on Github) for vL4T32.1.0 release
 
 ### Release Notes
+
+January, 2020
+* vL4T32.3.1
+* L4T 32.3.1 (JetPack 4.3)
+
 May, 2019
 * vL4T32.1.0
 * L4T 32.1.0 (JetPack 4.2)
@@ -79,7 +100,7 @@ March, 2017
 ## License
 MIT License
 
-Copyright (c) 2017-2018 Jetsonhacks
+Copyright (c) 2017-2020 Jetsonhacks
 Portions Copyright (c) 2015-2018 Raffaello Bonghi (jetson_easy)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
