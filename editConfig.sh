@@ -1,5 +1,5 @@
 #!/bin/bash
-# Make the kernel for NVIDIA Jetson TX2 Developer Kit
+# Edit the kernel configuration for NVIDIA Jetson TX2 Development Kit
 # Copyright (c) 2016-20 Jetsonhacks 
 # MIT License
 
@@ -8,7 +8,7 @@ KERNEL_RELEASE="4.9"
 
 function usage
 {
-    echo "usage: ./makeKernel.sh [[-d directory ]  | [-h]]"
+    echo "usage: ./editConfig.sh [[-d directory ] | [-h]]"
     echo "-d | --directory Directory path to parent of kernel"
     echo "-h | --help  This message"
 }
@@ -42,10 +42,9 @@ if [ ! -d "$PROPOSED_SRC_PATH" ]; then
   tput sgr0
   echo "The kernel source does not appear to be installed at: "
   echo "   ""$PROPOSED_SRC_PATH"
-  echo "Unable to start making kernel."
+  echo "Unable to edit kernel configuration."
   exit 1
 fi
 
-export SOURCE_TARGET
-# E Option carries over environment variables
-sudo -E ./scripts/makeKernel.sh
+cd "$PROPOSED_SRC_PATH"
+sudo make menuconfig
