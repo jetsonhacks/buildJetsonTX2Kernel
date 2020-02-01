@@ -11,7 +11,7 @@ These scripts are for building the kernel for the 64-bit L4T 32.3.1 (Ubuntu 18.0
 
 <strong>getKernelSources.sh</strong>
 
-Downloads the kernel sources for L4T from the NVIDIA website, decompresses them and opens a graphical editor on the .config file. Note that this also sets the .config file to the current system, and also sets the local version to the current local version, i.e., -tegra
+Downloads the kernel sources for L4T from the NVIDIA website and decompresses them. Note that this also sets the .config file to the current system, and also sets the local version to the current local version, i.e., -tegra
 
 <strong>makeKernel.sh</strong>
 
